@@ -14,3 +14,15 @@
 void helloWorld() {
     printf("Hello World !");
 }
+
+void first_pixel (char *source_path) {
+    unsigned char **data;
+    int width, height, channel_count;
+    int result = read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+    unsigned char r = data[0][0]; // Red component
+    unsigned char g = data[0][1]; // Green component
+    unsigned char b = data[0][2]; // Blue component
+
+    printf("first_pixel: %d, %d, %d\n", r, g, b);
+}

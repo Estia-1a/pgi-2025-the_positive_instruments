@@ -30,6 +30,9 @@ int main(int argc, char **argv) {
   if ( strncmp( configuration.command, "helloworld", 10 ) == 0 ) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
     helloWorld();
+  } else if ( strncmp( configuration.command, "first_pixel", 3 ) == 0 ) {
+    /* helloworld() function is defined in feature.h and implemented in feature.c */
+    first_pixel(configuration.filenames[0]);
   }
   /*
    * TO COMPLETE
