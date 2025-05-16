@@ -4,5 +4,5 @@
 
 void helloWorld();
 void dimension(const char*);
-//void second_line(char *source_path);
+void second_line(const char*);
 #endif
