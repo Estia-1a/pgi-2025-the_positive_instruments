@@ -6,4 +6,6 @@
  * @brief Here, you have to define functions of the pixel struct : getPixel and setPixel.
  * 
  */
-
+ 
+pixelRGB* pixel1 = getPixel(0, 0); // top-left corner of the image
+pixelRGB* pixel2 = getPixel(2, 1); // last pixel on the second row
