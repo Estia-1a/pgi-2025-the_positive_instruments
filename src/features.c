@@ -18,7 +18,23 @@ void helloWorld() {
 void dimension(const char* filename) {
     unsigned char* data;
     int width, height, nbChannels;
-    read_image_data(filename, &data, &w, &h, &nbChannels);
-    printf("Dimensions %s: %d x %d\n", filename, w, h);
-    free_image_data(data);
+    if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0){
+        printf("Dimensions %s: %d x %d\n", filename, width, height);
+        free_image_data(data);    
+    } else {
+        printf("Error");
+    }
+    
 }
+
+/** void second_line(char *source_path){
+*    unsigned char* data;
+*    int width, height, nbChannels;
+*    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+*        printf("Dimensions %s: %d R %d G %d B\n", source_path, 3*width, 3*width+1, 3*width+2);
+*        free_image_data(data);
+*    } else {
+*        printf("Error");
+*    }
+
+}**/
