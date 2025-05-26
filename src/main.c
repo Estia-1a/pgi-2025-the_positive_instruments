@@ -39,6 +39,10 @@ int main(int argc, char **argv) {
    } 
   else if ( strncmp( configuration.command, "tenth_pixel",4) == 0 ) {
     tenth_pixel( configuration.filenames[0] );
+   }
+
+  else if (strncmp(configuration.command, "print_pixel", 5) == 0){
+    print_pixel(configuration.filenames[0], 45, 500);
   }
   /*
    * TO COMPLETE
