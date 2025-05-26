@@ -91,6 +91,7 @@ void print_pixel( char *filename, int x, int y ){
     //getPixel(data, width, height, nbChannels, x, y);
 }
 
+<<<<<<< HEAD
 void max_pixel(char *filename){
     int width, height, nbChannels, x, y, somme, maxSom, max_x, max_y;
    
@@ -151,3 +152,45 @@ void max_pixel(char *filename){
     free(data);
     
 }
+=======
+
+void max_component(char component, char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        int maxValue = -1;
+        int maxX = 0, maxY = 0;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                
+                pixelRGB* pixel = getPixel(data, width, height, nbChannels, x, y);
+
+                if (component == 'R') {
+                    if (pixel->R > maxValue) {
+                        maxValue = pixel->R;
+                        maxX = x;
+                        maxY = y;
+                    }
+                } else if  (component == 'G') {
+                    if (pixel->G > maxValue) {
+                        maxValue = pixel->R;
+                        maxX = x;
+                        maxY = y;
+                    }
+                } else if  (component == 'B') {
+                    if (pixel->B > maxValue) {
+                        maxValue = pixel->R;
+                        maxX = x;
+                        maxY = y;
+                    }
+                }
+            }
+        }
+        
+        printf("max_component %c (%d, %d): %d\n", component, maxX, maxY, maxValue);
+        free_image_data(data);
+    } 
+}
+>>>>>>> 1cf9bb3251ed1dd402ebe80e44ce12a526b8e236
