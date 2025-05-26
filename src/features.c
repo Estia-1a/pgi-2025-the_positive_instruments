@@ -16,15 +16,19 @@ void helloWorld() {
 }
 
 void first_pixel (char *source_path) {
-    unsigned char **data;
-    int width, height, channel_count;
-    int result = read_image_data(source_path, &data, &width, &height, &channel_count);
-    
-    unsigned char r = data[0][0]; // Red component
-    unsigned char g = data[0][1]; // Green component
-    unsigned char b = data[0][2]; // Blue component
+    unsigned char* data;
+    int width, height, nbChannels;
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        // HERE
+        unsigned char r = data[0]; // Red component
+        unsigned char g = data[1]; // Green component
+        unsigned char b = data[2]; // Blue component
+        printf("first_pixel: %d, %d, %d\n", r, g, b);
 
-    printf("first_pixel: %d, %d, %d\n", r, g, b);
+        free_image_data(data);    
+    } else {
+        printf("Error");
+    }
 }
 
 void dimension(const char* filename) {
@@ -36,7 +40,6 @@ void dimension(const char* filename) {
     } else {
         printf("Error");
     }
-    
 }
 
 void second_line(const char* filename){
