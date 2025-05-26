@@ -130,3 +130,43 @@ void max_component(char component, char *source_path) {
         free_image_data(data);
     } 
 }
+
+void min_component(char component, char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        int minValue = 256;
+        int minX = 0, minY = 0;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                
+                pixelRGB* pixel = getPixel(data, width, height, nbChannels, x, y);
+
+                if (component == 'R') {
+                    if (pixel->R < minValue) {
+                        minValue = pixel->R;
+                        minX = x;
+                        minY = y;
+                    }
+                } else if  (component == 'G') {
+                    if (pixel->G < minValue) {
+                        minValue = pixel->G;
+                        minX = x;
+                        minY = y;
+                    }
+                } else if  (component == 'B') {
+                    if (pixel->B < minValue) {
+                        minValue = pixel->B;
+                        minX = x;
+                        minY = y;
+                    }
+                }
+            }
+        }
+        
+        printf("min_component %c (%d, %d): %d\n", component, minX, minY, minValue);
+        free_image_data(data);
+    } 
+}
