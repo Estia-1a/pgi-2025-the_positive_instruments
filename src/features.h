@@ -13,7 +13,5 @@ void dimension(const char*);
 void second_line(const char*);
 
 void print_pixel( char *filename, int x, int y );
-
-void max_component(char component, char *source_path);
-
 #endif
+>>>>>>> 645ba1db9354714aaa553b51564b99960f59efed
