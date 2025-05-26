@@ -91,7 +91,6 @@ void print_pixel( char *filename, int x, int y ){
     //getPixel(data, width, height, nbChannels, x, y);
 }
 
-<<<<<<< HEAD
 void max_pixel(char *filename){
     int width, height, nbChannels, x, y, somme, maxSom, max_x, max_y;
    
@@ -152,7 +151,6 @@ void max_pixel(char *filename){
     free(data);
     
 }
-=======
 
 void max_component(char component, char *source_path) {
     unsigned char *data;
@@ -193,4 +191,3 @@ void max_component(char component, char *source_path) {
         free_image_data(data);
     } 
 }
->>>>>>> 1cf9bb3251ed1dd402ebe80e44ce12a526b8e236
