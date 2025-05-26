@@ -7,5 +7,7 @@ void helloWorld();
 void first_pixel (char *source_path);
 
 void dimension(const char*);
-#endif
 
+void second_line(const char*);
+
+#endif
