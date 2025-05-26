@@ -42,6 +42,8 @@ int main(int argc, char **argv) {
     tenth_pixel( configuration.filenames[0] );
   } else if (strncmp(configuration.command, "print_pixel", 5) == 0){
     print_pixel(configuration.filenames[0], 45, 500);
+  }else if (strncmp(configuration.command, "max_pixel", 6) == 0){
+    max_pixel(configuration.filenames[0]);
   }
   /*
    * TO COMPLETE

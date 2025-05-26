@@ -1,5 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "features.h"
 #include "utils.h"
@@ -91,36 +92,62 @@ void print_pixel( char *filename, int x, int y ){
 }
 
 void max_pixel(char *filename){
-    unsigned char R, G, B;
-    int width, height, nbChannels, x, y, somme, maxSom, maxR,maxG, maxB, max_x, max_y;
-    //pixelRGB *pixel2;
-    position = (y * width + x) * nbChannels;
+    int width, height, nbChannels, x, y, somme, maxSom, max_x, max_y;
+   
+    unsigned char* data;
+    //unsigned char R, G, B;
     
     if(read_image_data(filename, &data, &width, &height, &nbChannels) == 0){
         fprintf(stderr, "Erreur de lecture du fichier.\n");
         return;
     }
 
-    //pixel2 = getPixel(data, width, height, nbChannels, x, y);
-    unsigned char* data[position];
-    R = data[position];
-    G = data[position+1];
-    B = data[position+2];
-    somme = R + G + B;
-    if(!pixel2){
-        for(y=0; y<height; y++){
-            for(x=0; x<width; x++){
-                if(somme>maxSom){
-                    maxSom = somme;
-                    maxR = R;
-                    maxG = G;
-                    maxB = B;
-                    max_x = x;
-                    max_y = y;
+    if(nbChannels < 3){
+        fprintf(stderr, "Nombre de canaux de l'image inferieur a 3.\n");
+        free(data);
+    }
+    
+    maxSom = -1;
+    //maxR = maxG = maxB = max_x = max_y = 0;
+    max_x = max_y = 0;
+    pixelRGB *pixel = NULL, *pixel_max = NULL;
 
-                }
+    for(y=0; y<height; y++){
+        for(x=0; x<width; x++){
+
+            pixel = getPixel(data, width, height, nbChannels, x, y);
+
+            //position = (y * width + x) * nbChannels;
+            if(!pixel){
+                continue;
+            }
+            /*R = data[position];
+            G = data[position+1];
+            B = data[position+2];*/
+
+            somme = pixel->R + pixel->G + pixel->B;
+
+            if(somme>maxSom){
+
+                maxSom = somme;
+                /*maxR = R;
+                maxG = G;
+                maxB = B;*/
+                max_x = x;
+                max_y = y;
+
             }
         }
-        printf("max_pixel (%d, %d): %d, %d, %d", max_x, max_y, maxR, maxG, maxB);
     }
+
+    pixel_max = getPixel(data, width, height, nbChannels, max_x, max_y);
+
+    if(pixel_max){
+        printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel_max->R, pixel_max->G, pixel_max->B);
+    }else{
+        printf("Erreur de recuperation du pixel.\n");
+    }
+    
+    free(data);
+    
 }
