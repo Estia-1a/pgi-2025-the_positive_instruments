@@ -37,6 +37,10 @@ int main(int argc, char **argv) {
   else if (strncmp(configuration.command, "second_line", 6) == 0){
     second_line(configuration.filenames[0]);
    }
+
+  else if (strncmp(configuration.command, "print_pixel", 5) == 0){
+    print_pixel(configuration.filenames[0], 45, 500);
+  }
   /*
    * TO COMPLETE
    */
