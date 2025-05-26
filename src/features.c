@@ -15,6 +15,22 @@ void helloWorld() {
     printf("Hello World !");
 }
 
+void first_pixel (char *source_path) {
+    unsigned char* data;
+    int width, height, nbChannels;
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        // HERE
+        unsigned char r = data[0]; // Red component
+        unsigned char g = data[1]; // Green component
+        unsigned char b = data[2]; // Blue component
+        printf("first_pixel: %d, %d, %d\n", r, g, b);
+
+        free_image_data(data);    
+    } else {
+        printf("Error");
+    }
+}
+
 void dimension(const char* filename) {
     unsigned char* data;
     int width, height, nbChannels;

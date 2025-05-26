@@ -30,18 +30,17 @@ int main(int argc, char **argv) {
   if ( strncmp( configuration.command, "helloworld", 10 ) == 0 ) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
     helloWorld();
+  } else if ( strncmp( configuration.command, "first_pixel", 3 ) == 0 ) {
+    /* helloworld() function is defined in feature.h and implemented in feature.c */
+    first_pixel(configuration.filenames[0]);
   } else if ( strncmp( configuration.command, "dimension",3) == 0 ) {
     /* dimension() function is defined in feature.h and implemented in feature.c */
     dimension( configuration.filenames[0] );
-  } 
-  else if (strncmp(configuration.command, "second_line", 6) == 0){
+  } else if (strncmp(configuration.command, "second_line", 6) == 0){
     second_line(configuration.filenames[0]);
-   } 
-  else if ( strncmp( configuration.command, "tenth_pixel",4) == 0 ) {
+  } else if ( strncmp( configuration.command, "tenth_pixel",4) == 0 ) {
     tenth_pixel( configuration.filenames[0] );
-   }
-
-  else if (strncmp(configuration.command, "print_pixel", 5) == 0){
+  } else if (strncmp(configuration.command, "print_pixel", 5) == 0){
     print_pixel(configuration.filenames[0], 45, 500);
   }
   /*
