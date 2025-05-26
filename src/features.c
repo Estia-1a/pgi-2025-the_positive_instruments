@@ -89,3 +89,38 @@ void print_pixel( char *filename, int x, int y ){
     printf("print_pixel(%d, %d): %d, %d, %d\n", x, y, pixel1->R, pixel1->G, pixel1->B);    
     //getPixel(data, width, height, nbChannels, x, y);
 }
+
+void max_pixel(char *filename){
+    unsigned char R, G, B;
+    int width, height, nbChannels, x, y, somme, maxSom, maxR,maxG, maxB, max_x, max_y;
+    //pixelRGB *pixel2;
+    position = (y * width + x) * nbChannels;
+    
+    if(read_image_data(filename, &data, &width, &height, &nbChannels) == 0){
+        fprintf(stderr, "Erreur de lecture du fichier.\n");
+        return;
+    }
+
+    //pixel2 = getPixel(data, width, height, nbChannels, x, y);
+    unsigned char* data[position];
+    R = data[position];
+    G = data[position+1];
+    B = data[position+2];
+    somme = R + G + B;
+    if(!pixel2){
+        for(y=0; y<height; y++){
+            for(x=0; x<width; x++){
+                if(somme>maxSom){
+                    maxSom = somme;
+                    maxR = R;
+                    maxG = G;
+                    maxB = B;
+                    max_x = x;
+                    max_y = y;
+
+                }
+            }
+        }
+        printf("max_pixel (%d, %d): %d, %d, %d", max_x, max_y, maxR, maxG, maxB);
+    }
+}
