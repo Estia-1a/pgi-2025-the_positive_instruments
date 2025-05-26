@@ -38,3 +38,20 @@ void second_line(const char* filename){
     }
 
 }
+
+void tenth_pixel(char* filename){
+    unsigned char* data;
+    int width, height, nbChannels;
+    if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0)  {
+        int pixel_index = 9;
+        int data_index = pixel_index * nbChannels;
+        unsigned char r = data[data_index];     
+        unsigned char g = data[data_index + 1]; 
+        unsigned char b = data[data_index + 2];
+        printf("tenth_pixel: %d, %d, %d\n", r, g, b);
+        free_image_data(data);
+    } else {
+        printf("Error");
+    }
+}
+    

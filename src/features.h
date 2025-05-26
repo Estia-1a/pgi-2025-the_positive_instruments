@@ -3,6 +3,7 @@
 
 
 void helloWorld();
+void tenth_pixel(char*);
 void dimension(const char*);
 void second_line(const char*);
 #endif
