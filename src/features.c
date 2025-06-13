@@ -292,3 +292,27 @@ void min_component(char component, char *source_path) {
         free_image_data(data);
     } 
 }
+
+
+void color_gray(const char* filename){
+    
+    unsigned char *data;
+    int width, height, nbChannels;
+
+    if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y<height; y=y+1){
+            for (int x=0; x<width; x=x+1){
+                unsigned char value = (getPixel(data, width, height, nbChannels, x, y)->R + getPixel(data, width, height, nbChannels, x, y)->G + getPixel(data, width, height, nbChannels, x, y)->B) /3 ;
+                getPixel(data, width, height, nbChannels, x, y)->R = value;
+                getPixel(data, width, height, nbChannels, x, y)->G = value;
+                getPixel(data, width, height, nbChannels, x, y)->B = value;
+
+                
+            }
+        }
+        
+    write_image_data("image_out.jpeg", data, width, height); 
+    printf("Image convertie en niveaux de gris : image_out.jpeg\n");       
+        
+    }
+}

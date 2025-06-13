@@ -22,4 +22,6 @@ void max_component(char component, char *source_path);
 
 void min_component(char component, char *source_path);
 
+void color_gray(const char* filename);
+
 #endif
