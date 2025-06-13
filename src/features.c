@@ -350,9 +350,10 @@ void color_gray(const char* filename){
             }
         }
         
-    write_image_data("image_out.jpeg", data, width, height); 
-    printf("Image convertie en niveaux de gris : image_out.jpeg\n"); 
+    write_image_data("image_out.bmp", data, width, height); 
+    printf("Image convertie en niveaux de gris : image_out.bmp\n"); 
     }
+    
 }      
         
 void color_invert(char *source_path) {
@@ -380,19 +381,19 @@ void rotate_cw(char *source_path) {
     
     read_image_data(source_path, &data, &width, &height, &nbChannels);
     
-    unsigned char *rotated = malloc(width * height * nbChannels);
+    unsigned char *memoire = malloc(width * height * nbChannels);
     
     int i, j, c;
     for (i = 0; i < height; i++) {
         for (j = 0; j < width; j++) {
             for (c = 0; c < nbChannels; c++) {
-                rotated[(j * height + (height - 1 - i)) * nbChannels + c] = data[(i * width + j) * nbChannels + c];
+                memoire[(j * height + (height - 1 - i)) * nbChannels + c] = data[(i * width + j) * nbChannels + c];
             }
         }
     }
     
-    write_image_data("image_out.bmp", rotated, height, width);
-    free(rotated);
+    write_image_data("image_out.bmp", memoire, height, width);
+    free(memoire);
 }
 
 void color_gray_luminance (char *source_path) {
@@ -413,6 +414,27 @@ void color_gray_luminance (char *source_path) {
     write_image_data("image_out.jpeg", data, width, height); 
     printf("Image convertie en niveaux de gris : image_out.jpeg\n");  
     }
+}
+
+void rotate_acw(char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    read_image_data(source_path, &data, &width, &height, &nbChannels);
+    
+    unsigned char *memoire = malloc(width * height * nbChannels);
+    
+    int i, j, c;
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            for (c = 0; c < nbChannels; c++) {
+                memoire[((width - 1 - j) * height + i) * nbChannels + c] = data[(i * width + j) * nbChannels + c];
+            }
+        }
+    }
+    
+    write_image_data("image_out.bmp", memoire, height, width);
+    free(memoire);
 }
 
 void color_green(char *source_path){
