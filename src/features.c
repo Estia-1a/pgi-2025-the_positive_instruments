@@ -91,11 +91,10 @@ void print_pixel( char *filename, int x, int y ){
     //getPixel(data, width, height, nbChannels, x, y);
 }
 
-void max_pixel(char *filename){
+void max_pixel(char *filename, FILE* out){
     int width, height, nbChannels, x, y, somme, maxSom, max_x, max_y;
    
     unsigned char* data;
-    //unsigned char R, G, B;
     
     if(read_image_data(filename, &data, &width, &height, &nbChannels) == 0){
         fprintf(stderr, "Erreur de lecture du fichier.\n");
@@ -108,7 +107,6 @@ void max_pixel(char *filename){
     }
     
     maxSom = -1;
-    //maxR = maxG = maxB = max_x = max_y = 0;
     max_x = max_y = 0;
     pixelRGB *pixel = NULL, *pixel_max = NULL;
 
@@ -117,22 +115,15 @@ void max_pixel(char *filename){
 
             pixel = getPixel(data, width, height, nbChannels, x, y);
 
-            //position = (y * width + x) * nbChannels;
             if(!pixel){
                 continue;
             }
-            /*R = data[position];
-            G = data[position+1];
-            B = data[position+2];*/
 
             somme = pixel->R + pixel->G + pixel->B;
 
             if(somme>maxSom){
 
                 maxSom = somme;
-                /*maxR = R;
-                maxG = G;
-                maxB = B;*/
                 max_x = x;
                 max_y = y;
 
@@ -143,7 +134,7 @@ void max_pixel(char *filename){
     pixel_max = getPixel(data, width, height, nbChannels, max_x, max_y);
 
     if(pixel_max){
-        printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel_max->R, pixel_max->G, pixel_max->B);
+        fprintf(out, "max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel_max->R, pixel_max->G, pixel_max->B);
     }else{
         printf("Erreur de recuperation du pixel.\n");
     }
@@ -152,7 +143,7 @@ void max_pixel(char *filename){
     
 }
 
-void min_pixel(char *filename){
+void min_pixel(char *filename, FILE* out){
     int width, height, nbChannels, x, y, somme, minSom, min_x, min_y;
    
     unsigned char* data;
@@ -204,7 +195,7 @@ void min_pixel(char *filename){
     pixel_min = getPixel(data, width, height, nbChannels, min_x, min_y);
 
     if(pixel_min){
-        printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, pixel_min->R, pixel_min->G, pixel_min->B);
+        fprintf(out, "min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, pixel_min->R, pixel_min->G, pixel_min->B);
     }else{
         printf("Erreur de recuperation du pixel.\n");
     }
@@ -213,7 +204,7 @@ void min_pixel(char *filename){
     
 }
 
-void max_component(char component, char *source_path) {
+void max_component(char component, char *source_path, FILE* out) {
     unsigned char *data;
     int width, height, nbChannels;
 
@@ -248,12 +239,12 @@ void max_component(char component, char *source_path) {
             }
         }
         
-        printf("max_component %c (%d, %d): %d\n", component, maxX, maxY, maxValue);
+        fprintf(out, "max_component %c (%d, %d): %d\n", component, maxX, maxY, maxValue);
         free_image_data(data);
     } 
 }
 
-void min_component(char component, char *source_path) {
+void min_component(char component, char *source_path, FILE* out) {
     unsigned char *data;
     int width, height, nbChannels;
 
@@ -288,11 +279,58 @@ void min_component(char component, char *source_path) {
             }
         }
         
-        printf("min_component %c (%d, %d): %d\n", component, minX, minY, minValue);
+        fprintf(out, "min_component %c (%d, %d): %d\n", component, minX, minY, minValue);
         free_image_data(data);
     } 
 }
 
+void stat_report(const char* FileImage){
+    int width, height, nbChannels;
+    unsigned char* data;
+
+    if(read_image_data(FileImage, &data, &width, &height, &nbChannels) == 0){
+        fprintf(stderr, "Erreur lors de la lecture de l'image.\n");
+        return;
+    }
+
+
+    FILE *fichier = fopen("start_report.txt", "w");
+
+    if (fichier == NULL){
+        fprintf(stderr, "Erreur lors de la création du fichier.\n");
+        free(data);
+        return;
+    }
+
+    
+    fprintf(fichier, "\n"); 
+    max_pixel((char*)FileImage, fichier);
+
+    fprintf(fichier, "\n"); 
+    min_pixel((char*)FileImage, fichier);
+
+    fprintf(fichier, "\n");
+    max_component('R', (char*)FileImage, fichier);
+
+    fprintf(fichier, "\n");
+    max_component('G', (char*)FileImage, fichier);
+
+    fprintf(fichier, "\n");
+    max_component('B', (char*)FileImage, fichier);
+
+    fprintf(fichier, "\n"); 
+    min_component('R', (char*)FileImage, fichier);
+
+    fprintf(fichier, "\n");
+    min_component('G', (char*)FileImage, fichier);
+
+    fprintf(fichier, "\n");
+    min_component('B', (char*)FileImage, fichier);
+    
+    fclose(fichier);
+    free(data);
+    printf("Le fichier startReport a ete cree avec succes.\n");
+}
 
 void color_gray(const char* filename){
     
