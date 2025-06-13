@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #ifndef FEATURES_H
 #define FEATURES_H
 
@@ -14,16 +16,23 @@ void second_line(const char*);
 
 void print_pixel( char *filename, int x, int y );
 
-void max_pixel(char *filename);
+void max_pixel(char *filename,FILE* out);
 
-void min_pixel(char *filename);
+void min_pixel(char *filename, FILE* out);
 
-void max_component(char component, char *source_path);
+void max_component(char component, char *source_path, FILE* out);
 
-void min_component(char component, char *source_path);
+void min_component(char component, char *source_path, FILE* out);
+
+void stat_report(const char* FileImage);
+
+/*int write_image_data(const char *filename, unsigned char *data, int width, int height);*/
+void color_gray(const char* filename);
 
 void color_invert(char *source_path);
 
 void rotate_cw(char*source_path);
+
+void color_gray_luminance (char *source_path);
 
 #endif
