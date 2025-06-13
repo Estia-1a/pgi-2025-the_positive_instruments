@@ -351,41 +351,51 @@ void color_gray(const char* filename){
             }
         }
         
-    write_image_data("image_out.jpeg", data, width, height); 
-    printf("Image convertie en niveaux de gris : image_out.jpeg\n"); 
+    write_image_data("image_out.bmp", data, width, height); 
+    printf("Image convertie en niveaux de gris : image_out.bmp\n"); 
     }
+
 }      
         
 void color_invert(char *source_path) {
     unsigned char *data;
     int width, height, nbChannels;
     
-    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
-        printf("Processing image: %dx%d with %d channels\n", width, height, nbChannels);
-        
-        unsigned char *output_data = (unsigned char *)malloc(width * height * nbChannels * sizeof(unsigned char));
-        if (!output_data) {
-            printf("Erreur\n");
-            free_image_data(data);
-            return;
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) !=0){
+
+        int i;
+        for (i = 0; i < width * height * nbChannels; i++) {
+            data[i] = 255 - data[i];
         }
         
-        for (int i = 0; i < width * height * nbChannels; i++) {
-            output_data[i] = 255 - data[i];
-        }
-        
-        if (write_image_data("image_out.bmp", output_data, width, height) == 0) {
-            printf("Erreur\n");
-        }
-        
-        free(output_data);
-        free_image_data(data);
-        
-    } else {
-        printf("Erroeur: %s\n", source_path);
+        write_image_data("image_out.bmp", data, width, height);
     }
+    else{
+        printf("Erreur\n");
+    }
+    
 }
 
+void rotate_cw(char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    read_image_data(source_path, &data, &width, &height, &nbChannels);
+    
+    unsigned char *memoire = malloc(width * height * nbChannels);
+    
+    int i, j, c;
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            for (c = 0; c < nbChannels; c++) {
+                memoire[(j * height + (height - 1 - i)) * nbChannels + c] = data[(i * width + j) * nbChannels + c];
+            }
+        }
+    }
+    
+    write_image_data("image_out.bmp", memoire, height, width);
+    free(memoire);
+}
 
 void color_gray_luminance (char *source_path) {
     unsigned char *data;
@@ -404,5 +414,77 @@ void color_gray_luminance (char *source_path) {
         }
     write_image_data("image_out.jpeg", data, width, height); 
     printf("Image convertie en niveaux de gris : image_out.jpeg\n");  
+    }
+}
+
+void rotate_acw(char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    read_image_data(source_path, &data, &width, &height, &nbChannels);
+    
+    unsigned char *memoire = malloc(width * height * nbChannels);
+    
+    int i, j, c;
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            for (c = 0; c < nbChannels; c++) {
+                memoire[((width - 1 - j) * height + i) * nbChannels + c] = data[(i * width + j) * nbChannels + c];
+            }
+        }
+    }
+    
+    write_image_data("image_out.bmp", memoire, height, width);
+    free(memoire);
+}
+
+void color_green(char *source_path){
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y<height; y=y+1){
+            for (int x=0; x<width; x=x+1){
+                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                a->R = 0;
+                a->B = 0;
+            }
+        }
+        write_image_data("image_out.bmp", data, width, height); 
+        printf("Image convertie en vert : image_out.bmp\n"); 
+    }
+}
+
+void color_blue(char *source_path){
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y<height; y=y+1){
+            for (int x=0; x<width; x=x+1){
+                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                a->R = 0;
+                a->G = 0;
+            }
+        }
+        write_image_data("image_out.bmp", data, width, height); 
+        printf("Image convertie en bleue : image_out.bmp\n"); 
+    }
+}
+
+void color_red(char *source_path){
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y<height; y=y+1){
+            for (int x=0; x<width; x=x+1){
+                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                a->G = 0;
+                a->B = 0;
+            }
+        }
+        write_image_data("image_out.bmp", data, width, height); 
+        printf("Image convertie en rouge : image_out.bmp\n"); 
     }
 }
