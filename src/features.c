@@ -386,12 +386,22 @@ void color_invert(char *source_path) {
 }
 
 
-/*void color_gray_luminance (char *source_path) {
+void color_gray_luminance (char *source_path) {
     unsigned char *data;
     int width, height, nbChannels;
     
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
-        for (int y=0; y>height)
-        unsigned char value = 0.21 * getPixel(x, y)->R + 0.72 * getPixel(x, y)->G + 0.07 * getPixel(x, y)->B
+        for (int y=0; y<height; y=y+1){
+            for (int x=0; x<width; x=x+1){
+                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                unsigned char value = 0.21 * a->R + 0.72 * a->G + 0.07 * a->B;
+                a->R = value;
+                a->G = value;
+                a->B = value;
+
+            }
+        }
+    write_image_data("image_out.jpeg", data, width, height); 
+    printf("Image convertie en niveaux de gris : image_out.jpeg\n");  
+    }
 }
-}*/
