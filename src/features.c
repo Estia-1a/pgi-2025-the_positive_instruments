@@ -302,10 +302,11 @@ void color_gray(const char* filename){
     if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0) {
         for (int y=0; y<height; y=y+1){
             for (int x=0; x<width; x=x+1){
-                unsigned char value = (getPixel(data, width, height, nbChannels, x, y)->R + getPixel(data, width, height, nbChannels, x, y)->G + getPixel(data, width, height, nbChannels, x, y)->B) /3 ;
-                getPixel(data, width, height, nbChannels, x, y)->R = value;
-                getPixel(data, width, height, nbChannels, x, y)->G = value;
-                getPixel(data, width, height, nbChannels, x, y)->B = value;
+                pixelRGB* currentPixel = getPixel(data, width, height, nbChannels, x, y); 
+                unsigned char value = (currentPixel->R + currentPixel->G + currentPixel->B) /3 ;
+                currentPixel->R = value;
+                currentPixel->G = value;
+                currentPixel->B = value;
 
                 
             }
@@ -345,3 +346,14 @@ void color_invert(char *source_path) {
         printf("Erroeur: %s\n", source_path);
     }
 }
+
+
+/*void color_gray_luminance (char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y>height)
+        unsigned char value = 0.21 * getPixel(x, y)->R + 0.72 * getPixel(x, y)->G + 0.07 * getPixel(x, y)->B
+}
+}*/
