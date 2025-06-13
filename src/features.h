@@ -24,4 +24,6 @@ void min_component(char component, char *source_path);
 
 void color_gray(const char* filename);
 
+void color_invert(char *source_path);
+
 #endif
