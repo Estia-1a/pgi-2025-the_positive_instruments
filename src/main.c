@@ -62,6 +62,8 @@ int main(int argc, char **argv) {
     color_gray(configuration.filenames[0]);
   }else if (strncmp(configuration.command, "color_invert", 12) == 0) {
     color_invert(configuration.filenames[0]);
+  }else if (strncmp(configuration.command, "rotate_cw", 9) == 0) {
+    rotate_cw(configuration.filenames[0]);
   }else if (strncmp(configuration.command, "color_gray_luminance", 20) == 0) {
     color_gray_luminance(configuration.filenames[0]);
   }else if (strncmp(configuration.command, "color_green", 11) == 0) {

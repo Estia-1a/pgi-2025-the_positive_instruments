@@ -359,32 +359,41 @@ void color_invert(char *source_path) {
     unsigned char *data;
     int width, height, nbChannels;
     
-    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
-        printf("Processing image: %dx%d with %d channels\n", width, height, nbChannels);
-        
-        unsigned char *output_data = (unsigned char *)malloc(width * height * nbChannels * sizeof(unsigned char));
-        if (!output_data) {
-            printf("Erreur\n");
-            free_image_data(data);
-            return;
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) !=0){
+
+        int i;
+        for (i = 0; i < width * height * nbChannels; i++) {
+            data[i] = 255 - data[i];
         }
         
-        for (int i = 0; i < width * height * nbChannels; i++) {
-            output_data[i] = 255 - data[i];
-        }
-        
-        if (write_image_data("image_out.bmp", output_data, width, height) == 0) {
-            printf("Erreur\n");
-        }
-        
-        free(output_data);
-        free_image_data(data);
-        
-    } else {
-        printf("Erroeur: %s\n", source_path);
+        write_image_data("image_out.bmp", data, width, height);
     }
+    else{
+        printf("Erreur\n");
+    }
+    
 }
 
+void rotate_cw(char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    read_image_data(source_path, &data, &width, &height, &nbChannels);
+    
+    unsigned char *rotated = malloc(width * height * nbChannels);
+    
+    int i, j, c;
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            for (c = 0; c < nbChannels; c++) {
+                rotated[(j * height + (height - 1 - i)) * nbChannels + c] = data[(i * width + j) * nbChannels + c];
+            }
+        }
+    }
+    
+    write_image_data("image_out.bmp", rotated, height, width);
+    free(rotated);
+}
 
 void color_gray_luminance (char *source_path) {
     unsigned char *data;
