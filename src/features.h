@@ -22,4 +22,6 @@ void max_component(char component, char *source_path);
 
 void min_component(char component, char *source_path);
 
+void color_invert(char *source_path);
+
 #endif
