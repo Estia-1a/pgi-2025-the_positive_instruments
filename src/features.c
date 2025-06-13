@@ -311,9 +311,7 @@ void color_invert(char *source_path) {
             output_data[i] = 255 - data[i];
         }
         
-        if (write_image_data("image_out.bmp", output_data, width, height) != 0) {
-            printf("ca marcheeee\n");
-        } else {
+        if (write_image_data("image_out.bmp", output_data, width, height) == 0) {
             printf("Erreur\n");
         }
         
