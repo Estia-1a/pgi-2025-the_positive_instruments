@@ -24,4 +24,6 @@ void min_component(char component, char *source_path);
 
 void color_invert(char *source_path);
 
+void rotate_cw(char*source_path);
+
 #endif
