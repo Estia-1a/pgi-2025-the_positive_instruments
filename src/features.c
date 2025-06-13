@@ -89,6 +89,7 @@ void print_pixel( char *filename, int x, int y ){
     }
     printf("print_pixel(%d, %d): %d, %d, %d\n", x, y, pixel1->R, pixel1->G, pixel1->B);    
     //getPixel(data, width, height, nbChannels, x, y);
+    free(data);
 }
 
 void max_pixel(char *filename, FILE* out){
