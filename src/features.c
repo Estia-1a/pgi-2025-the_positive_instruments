@@ -431,3 +431,20 @@ void color_green(char *source_path){
         printf("Image convertie en vert : image_out.bmp\n"); 
     }
 }
+
+void color_blue(char *source_path){
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y<height; y=y+1){
+            for (int x=0; x<width; x=x+1){
+                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                a->R = 0;
+                a->G = 0;
+            }
+        }
+        write_image_data("image_out.bmp", data, width, height); 
+        printf("Image convertie en vert : image_out.bmp\n"); 
+    }
+}
