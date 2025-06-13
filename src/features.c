@@ -467,7 +467,7 @@ void color_blue(char *source_path){
             }
         }
         write_image_data("image_out.bmp", data, width, height); 
-        printf("Image convertie en vert : image_out.bmp\n"); 
+        printf("Image convertie en bleue : image_out.bmp\n"); 
     }
 }
 
