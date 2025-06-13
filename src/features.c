@@ -353,7 +353,7 @@ void color_gray(const char* filename){
     write_image_data("image_out.bmp", data, width, height); 
     printf("Image convertie en niveaux de gris : image_out.bmp\n"); 
     }
-    
+
 }      
         
 void color_invert(char *source_path) {
@@ -468,5 +468,22 @@ void color_blue(char *source_path){
         }
         write_image_data("image_out.bmp", data, width, height); 
         printf("Image convertie en vert : image_out.bmp\n"); 
+    }
+}
+
+void color_red(char *source_path){
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y<height; y=y+1){
+            for (int x=0; x<width; x=x+1){
+                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                a->G = 0;
+                a->B = 0;
+            }
+        }
+        write_image_data("image_out.bmp", data, width, height); 
+        printf("Image convertie en rouge : image_out.bmp\n"); 
     }
 }
