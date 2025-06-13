@@ -53,17 +53,12 @@ int main(int argc, char **argv) {
     char comp = configuration.arguments[0][0];  // ex: 'R'
     min_component(comp, configuration.filenames[0], stdout);
   } else if (strncmp(configuration.command, "stat_report", 11) == 0){
-    /*printf("Commande reçue : '%s'\n", configuration.command);
-    printf("Commande lue : [%s]\n", configuration.command);
-    printf("start_report lance\n");*/
+
     stat_report(configuration.filenames[0]);
   } /*else if(strncmp(configuration.command, "write_image_data", 11) == 0){
     write_image_data(configuration.filenames[0]);
   }*/
-
-
-    min_component(comp, configuration.filenames[0]);
-  }else if (strncmp(configuration.command, "color_gray", 10) == 0) {
+  else if (strncmp(configuration.command, "color_gray", 10) == 0) {
     color_gray(configuration.filenames[0]);
   }else if (strncmp(configuration.command, "color_invert", 12) == 0) {
     color_invert(configuration.filenames[0]);
