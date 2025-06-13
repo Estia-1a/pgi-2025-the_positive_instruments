@@ -173,13 +173,13 @@ void max_component(char component, char *source_path) {
                     }
                 } else if  (component == 'G') {
                     if (pixel->G > maxValue) {
-                        maxValue = pixel->R;
+                        maxValue = pixel->G;
                         maxX = x;
                         maxY = y;
                     }
                 } else if  (component == 'B') {
                     if (pixel->B > maxValue) {
-                        maxValue = pixel->R;
+                        maxValue = pixel->B;
                         maxX = x;
                         maxY = y;
                     }
