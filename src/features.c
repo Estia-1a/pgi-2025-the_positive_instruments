@@ -152,6 +152,67 @@ void max_pixel(char *filename){
     
 }
 
+void min_pixel(char *filename){
+    int width, height, nbChannels, x, y, somme, minSom, min_x, min_y;
+   
+    unsigned char* data;
+    //unsigned char R, G, B;
+    
+    if(read_image_data(filename, &data, &width, &height, &nbChannels) == 0){
+        fprintf(stderr, "Erreur de lecture du fichier.\n");
+        return;
+    }
+
+    if(nbChannels < 3){
+        fprintf(stderr, "Nombre de canaux de l'image inferieur a 3.\n");
+        free(data);
+    }
+    
+    minSom = 256 * 3;
+    //maxR = maxG = maxB = max_x = max_y = 0;
+    min_x = min_y = 0;
+    pixelRGB *pixel = NULL, *pixel_min = NULL;
+
+    for(y=0; y<height; y++){
+        for(x=0; x<width; x++){
+
+            pixel = getPixel(data, width, height, nbChannels, x, y);
+
+            //position = (y * width + x) * nbChannels;
+            if(!pixel){
+                continue;
+            }
+            /*R = data[position];
+            G = data[position+1];
+            B = data[position+2];*/
+
+            somme = pixel->R + pixel->G + pixel->B;
+
+            if(somme<minSom){
+
+                minSom = somme;
+                /*maxR = R;
+                maxG = G;
+                maxB = B;*/
+                min_x = x;
+                min_y = y;
+
+            }
+        }
+    }
+
+    pixel_min = getPixel(data, width, height, nbChannels, min_x, min_y);
+
+    if(pixel_min){
+        printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, pixel_min->R, pixel_min->G, pixel_min->B);
+    }else{
+        printf("Erreur de recuperation du pixel.\n");
+    }
+    
+    free(data);
+    
+}
+
 void max_component(char component, char *source_path) {
     unsigned char *data;
     int width, height, nbChannels;
