@@ -225,13 +225,13 @@ void max_component(char component, char *source_path, FILE* out) {
                     }
                 } else if  (component == 'G') {
                     if (pixel->G > maxValue) {
-                        maxValue = pixel->R;
+                        maxValue = pixel->G;
                         maxX = x;
                         maxY = y;
                     }
                 } else if  (component == 'B') {
                     if (pixel->B > maxValue) {
-                        maxValue = pixel->R;
+                        maxValue = pixel->B;
                         maxX = x;
                         maxY = y;
                     }
@@ -331,3 +331,67 @@ void stat_report(const char* FileImage){
     free(data);
     printf("Le fichier startReport a ete cree avec succes.\n");
 }
+
+void color_gray(const char* filename){
+    
+    unsigned char *data;
+    int width, height, nbChannels;
+
+    if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y<height; y=y+1){
+            for (int x=0; x<width; x=x+1){
+                pixelRGB* currentPixel = getPixel(data, width, height, nbChannels, x, y); 
+                unsigned char value = (currentPixel->R + currentPixel->G + currentPixel->B) /3 ;
+                currentPixel->R = value;
+                currentPixel->G = value;
+                currentPixel->B = value;
+
+                
+            }
+        }
+        
+    write_image_data("image_out.jpeg", data, width, height); 
+    printf("Image convertie en niveaux de gris : image_out.jpeg\n"); 
+    }
+}      
+        
+void color_invert(char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        printf("Processing image: %dx%d with %d channels\n", width, height, nbChannels);
+        
+        unsigned char *output_data = (unsigned char *)malloc(width * height * nbChannels * sizeof(unsigned char));
+        if (!output_data) {
+            printf("Erreur\n");
+            free_image_data(data);
+            return;
+        }
+        
+        for (int i = 0; i < width * height * nbChannels; i++) {
+            output_data[i] = 255 - data[i];
+        }
+        
+        if (write_image_data("image_out.bmp", output_data, width, height) == 0) {
+            printf("Erreur\n");
+        }
+        
+        free(output_data);
+        free_image_data(data);
+        
+    } else {
+        printf("Erroeur: %s\n", source_path);
+    }
+}
+
+
+/*void color_gray_luminance (char *source_path) {
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        for (int y=0; y>height)
+        unsigned char value = 0.21 * getPixel(x, y)->R + 0.72 * getPixel(x, y)->G + 0.07 * getPixel(x, y)->B
+}
+}*/
