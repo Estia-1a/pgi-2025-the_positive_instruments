@@ -368,12 +368,9 @@ void color_invert(char *source_path) {
         }
         
         write_image_data("image_out.bmp", data, width, height);
-    }
-    else{
-        printf("Erreur\n");
-    }
-    
+    }   
 }
+
 
 void rotate_cw(char *source_path) {
     unsigned char *data;
@@ -411,8 +408,8 @@ void color_gray_luminance (char *source_path) {
 
             }
         }
-    write_image_data("image_out.jpeg", data, width, height); 
-    printf("Image convertie en niveaux de gris : image_out.jpeg\n");  
+    write_image_data("image_out.bmp", data, width, height); 
+    printf("Image convertie en niveaux de gris : image_out.bmp\n");  
     }
 }
 
