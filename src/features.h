@@ -26,7 +26,6 @@ void min_component(char component, char *source_path, FILE* out);
 
 void stat_report(const char* FileImage);
 
-/*int write_image_data(const char *filename, unsigned char *data, int width, int height);*/
 void color_gray(const char* filename);
 
 void color_invert(char *source_path);
