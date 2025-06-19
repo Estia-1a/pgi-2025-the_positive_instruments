@@ -41,10 +41,10 @@ void dimension(const char *source_path) {
     free_image_data(data);  
 }
 
-void second_line(const char* filename){
-    unsigned char* data;
+void second_line(const char *source_path){
+    unsigned char *data;
     int width, height, nbChannels;
-    if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0)  {
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0)  {
         printf("Second_line: %d, %d, %d\n", data[3*width], data[3*width+1], data[3*width+2]);
     } else {
         printf("Error");
