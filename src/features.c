@@ -522,7 +522,7 @@ void color_desaturate(char *source_path) {
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) !=0){
         for(int y=0; y<height; y++){
             for(int x=0; x<width; x++){
-                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y);
+                pixelRGB* a = get_pixel(data, width, height, nbChannels, x, y);
                 R = a->R;
                 G = a->G;
                 B = a->B;
@@ -534,6 +534,6 @@ void color_desaturate(char *source_path) {
             }
         }
     write_image_data("image_out.bmp", data, width, height);
-    printf("Image désaturée : image_out.bmp\n");
+    printf("Image desaturee : image_out.bmp\n");
     }
 }
