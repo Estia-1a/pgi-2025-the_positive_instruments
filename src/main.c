@@ -75,8 +75,7 @@ int main(int argc, char **argv) {
   }else if (strncmp(configuration.command, "color_red", 9) == 0) {
     color_red(configuration.filenames[0]);
   }else if (strncmp(configuration.command, "color_desaturate", 15)==0){
-    color_desaturate(configuration.filenames[0]);
-    
+    color_desaturate(configuration.filenames[0]);  
   }
   /*
    * TO COMPLETE
