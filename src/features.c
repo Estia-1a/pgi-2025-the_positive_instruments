@@ -631,11 +631,11 @@ void color_desaturate(char *source_path) {
 }
 
 void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height) {
-    unsigned char *data;
+    unsigned char* data;
     int width, height, nbChannels;
     
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
-        unsigned char *cropped = malloc(crop_width * crop_height * nbChannels);
+        unsigned char* cropped = malloc(crop_width * crop_height * nbChannels);
         
         int start_x = center_x - crop_width / 2;
         int start_y = center_y - crop_height / 2;
@@ -665,8 +665,8 @@ void scale_crop(char *source_path, int center_x, int center_y, int crop_width, i
     }
 }
 
-void scale_nearest(char *source_path, float scale) {
-    unsigned char *data;
+void scale_nearest(char* source_path, float scale) {
+    unsigned char* data;
     int width, height, nbChannels;
     
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
