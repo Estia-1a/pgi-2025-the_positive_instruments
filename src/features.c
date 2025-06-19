@@ -159,7 +159,7 @@ void min_pixel(char *filename, FILE* out){
     }
     
     minSom = 256 * 3;
-    //maxR = maxG = maxB = max_x = max_y = 0;
+    /*maxR = maxG = maxB = max_x = max_y = 0;*/
     min_x = min_y = 0;
     pixelRGB *pixel = NULL, *pixel_min = NULL;
 
