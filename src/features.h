@@ -42,6 +42,12 @@ void color_blue (char *source_path);
 
 void color_red (char *source_path);
 
+void mirror_horizontal (const char *fileImage_input, const char *fileImage_ouput);
+
+void mirror_vertical (const char *fileImage_input, const char *fileImage_ouput);
+
+void mirror_total (const char *fileImage_input, const char *fileImage_ouput);
+
 void color_desaturate (char *source_path);
 
 

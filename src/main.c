@@ -41,7 +41,10 @@ int main(int argc, char **argv) {
   } else if ( strncmp( configuration.command, "tenth_pixel",4) == 0 ) {
     tenth_pixel( configuration.filenames[0] );
   } else if (strncmp(configuration.command, "print_pixel", 10) == 0){
-    print_pixel(configuration.filenames[0], 45 , 500);
+    int x, y;
+    x = atoi(configuration.arguments[0]);
+    y = atoi(configuration.arguments[1]);
+    print_pixel(configuration.filenames[0], x, y);
   } else if (strncmp(configuration.command, "max_pixel", 6) == 0){
     max_pixel(configuration.filenames[0], stdout);
   } else if (strncmp(configuration.command, "min_pixel", 6) == 0){
@@ -76,6 +79,18 @@ int main(int argc, char **argv) {
     color_red(configuration.filenames[0]);
   }else if (strncmp(configuration.command, "color_desaturate", 15)==0){
     color_desaturate(configuration.filenames[0]);  
+  }
+  else if(strncmp(configuration.command, "mirror_horizontal", 9) == 0){
+    mirror_horizontal(configuration.filenames[0], "image_out.bmp");
+  }
+  else if(strncmp(configuration.command, "mirror_vertical", 9) == 0){
+    mirror_vertical(configuration.filenames[0], "image_out.bmp");
+  }
+  else if(strncmp(configuration.command, "mirror_total", 9) == 0){
+    mirror_total(configuration.filenames[0], "image_out.bmp");
+  }
+  else if (strncmp(configuration.command, "color_desaturate", 15)==0){
+    color_desaturate(configuration.filenames[0]);
   }
   /*
    * TO COMPLETE
