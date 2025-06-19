@@ -496,3 +496,44 @@ void color_red(char *source_path){
     int width, height, nbChannels;
 
 }*/
+
+void color_desaturate(char *source_path) {
+
+    unsigned char min(unsigned char a, unsigned char b, unsigned char c){
+        unsigned char min_val = a ;
+        if(b<min_val) min_val=b;
+        if(c<min_val) min_val=c;
+        return min_val; 
+    }
+
+    unsigned char max(unsigned char a, unsigned char b, unsigned char c){
+        unsigned char max_val = a;
+        if(b>max_val) max_val = b;
+        if(c>max_val) max_val = c;
+        return max_val;
+    }
+
+    
+    unsigned char *data;
+    int width, height, nbChannels;
+    unsigned char R, G, B;
+    unsigned char new_val;
+
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) !=0){
+        for(int y=0; y<height; y++){
+            for(int x=0; x<width; x++){
+                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y);
+                R = a->R;
+                G = a->G;
+                B = a->B;
+
+                new_val = (min(R, G, B)+max(R, G, B))/2;
+                a->R = new_val;
+                a->G = new_val;
+                a->B = new_val;
+            }
+        }
+    write_image_data("image_out.bmp", data, width, height);
+    printf("Image désaturée : image_out.bmp\n");
+    }
+}
