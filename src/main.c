@@ -80,6 +80,9 @@ int main(int argc, char **argv) {
   else if(strncmp(configuration.command, "mirror_horizontal", 9) == 0){
     mirror_horizontal(configuration.filenames[0], "image_out.bmp");
   }
+  else if(strncmp(configuration.command, "mirror_vertical", 9) == 0){
+    mirror_vertical(configuration.filenames[0], "image_out.bmp");
+  }
   else if (strncmp(configuration.command, "color_desaturate", 15)==0){
     color_desaturate(configuration.filenames[0]);
   }

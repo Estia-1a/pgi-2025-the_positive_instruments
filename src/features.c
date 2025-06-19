@@ -357,7 +357,7 @@ void color_gray(char *source_path){
     free_image_data(data);
 
 }      
-}
+
 
         
 void color_invert(char *source_path) {
@@ -519,6 +519,36 @@ void mirror_horizontal (const char *fileImage_input, const char *fileImage_ouput
         for(x=0; x<width; x++){
             index_input = ((y * width) + x) * nbChannels;
             index_output = ((y * width) +(width - 1 - x)) * nbChannels;
+
+            for (i=0; i<nbChannels; i++){
+                data_output[index_output + i] = data_input[index_input + i];
+            }
+        }
+    }
+
+    write_image_data(fileImage_ouput, data_output, width, height);
+
+    free_image_data(data_input);
+    free_image_data(data_output);
+
+
+}
+
+void mirror_vertical (const char *fileImage_input, const char *fileImage_ouput){
+    unsigned char *data_input, *data_output; 
+    int width, height, nbChannels, x, y, index_input, index_output, i;
+
+    if(read_image_data(fileImage_input, &data_input, &width, &height, &nbChannels) == 0){
+        fprintf(stderr, "Erreur lors de la lecture de l'image.\n");
+        return;
+    }
+
+    data_output = malloc(sizeof(unsigned char)*width*height*nbChannels);
+
+    for (y=0; y<height; y++){
+        for(x=0; x<width; x++){
+            index_input = ((y * width) + x) * nbChannels;
+            index_output = (((height - 1 - y) * width) + x) * nbChannels;
 
             for (i=0; i<nbChannels; i++){
                 data_output[index_output + i] = data_input[index_input + i];
