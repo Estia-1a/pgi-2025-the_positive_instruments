@@ -81,14 +81,16 @@ void print_pixel( char *filename, int x, int y ){
         return;
     }
     
-    pixel1 = getPixel(data, width, height, nbChannels, x, y);
+    pixel1 = get_pixel(data, width, height, nbChannels, x, y);
 
     if(!pixel1){
         fprintf(stderr, "Erreur d indexage.\n");
         return;
     }
-    printf("print_pixel(%d, %d): %d, %d, %d\n", x, y, pixel1->R, pixel1->G, pixel1->B);    
-    //getPixel(data, width, height, nbChannels, x, y);
+    else{
+        printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, pixel1->R, pixel1->G, pixel1->B);
+    }
+    
     free(data);
 }
 
@@ -114,7 +116,7 @@ void max_pixel(char *filename, FILE* out){
     for(y=0; y<height; y++){
         for(x=0; x<width; x++){
 
-            pixel = getPixel(data, width, height, nbChannels, x, y);
+            pixel = get_pixel(data, width, height, nbChannels, x, y);
 
             if(!pixel){
                 continue;
@@ -132,7 +134,7 @@ void max_pixel(char *filename, FILE* out){
         }
     }
 
-    pixel_max = getPixel(data, width, height, nbChannels, max_x, max_y);
+    pixel_max = get_pixel(data, width, height, nbChannels, max_x, max_y);
 
     if(pixel_max){
         fprintf(out, "max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel_max->R, pixel_max->G, pixel_max->B);
@@ -168,7 +170,7 @@ void min_pixel(char *filename, FILE* out){
     for(y=0; y<height; y++){
         for(x=0; x<width; x++){
 
-            pixel = getPixel(data, width, height, nbChannels, x, y);
+            pixel = get_pixel(data, width, height, nbChannels, x, y);
 
             //position = (y * width + x) * nbChannels;
             if(!pixel){
@@ -193,7 +195,7 @@ void min_pixel(char *filename, FILE* out){
         }
     }
 
-    pixel_min = getPixel(data, width, height, nbChannels, min_x, min_y);
+    pixel_min = get_pixel(data, width, height, nbChannels, min_x, min_y);
 
     if(pixel_min){
         fprintf(out, "min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, pixel_min->R, pixel_min->G, pixel_min->B);
@@ -216,7 +218,7 @@ void max_component(char component, char *source_path, FILE* out) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 
-                pixelRGB* pixel = getPixel(data, width, height, nbChannels, x, y);
+                pixelRGB* pixel = get_pixel(data, width, height, nbChannels, x, y);
 
                 if (component == 'R') {
                     if (pixel->R > maxValue) {
@@ -256,7 +258,7 @@ void min_component(char component, char *source_path, FILE* out) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 
-                pixelRGB* pixel = getPixel(data, width, height, nbChannels, x, y);
+                pixelRGB* pixel = get_pixel(data, width, height, nbChannels, x, y);
 
                 if (component == 'R') {
                     if (pixel->R < minValue) {
@@ -341,7 +343,7 @@ void color_gray(const char* filename){
     if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0) {
         for (int y=0; y<height; y=y+1){
             for (int x=0; x<width; x=x+1){
-                pixelRGB* currentPixel = getPixel(data, width, height, nbChannels, x, y); 
+                pixelRGB* currentPixel = get_pixel(data, width, height, nbChannels, x, y); 
                 unsigned char value = (currentPixel->R + currentPixel->G + currentPixel->B) /3 ;
                 currentPixel->R = value;
                 currentPixel->G = value;
@@ -404,7 +406,7 @@ void color_gray_luminance (char *source_path) {
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
         for (int y=0; y<height; y=y+1){
             for (int x=0; x<width; x=x+1){
-                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                pixelRGB* a = get_pixel(data, width, height, nbChannels, x, y); 
                 unsigned char value = 0.21 * a->R + 0.72 * a->G + 0.07 * a->B;
                 a->R = value;
                 a->G = value;
@@ -445,7 +447,7 @@ void color_green(char *source_path){
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
         for (int y=0; y<height; y=y+1){
             for (int x=0; x<width; x=x+1){
-                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                pixelRGB* a = get_pixel(data, width, height, nbChannels, x, y); 
                 a->R = 0;
                 a->B = 0;
             }
@@ -462,7 +464,7 @@ void color_blue(char *source_path){
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
         for (int y=0; y<height; y=y+1){
             for (int x=0; x<width; x=x+1){
-                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                pixelRGB* a = get_pixel(data, width, height, nbChannels, x, y); 
                 a->R = 0;
                 a->G = 0;
             }
@@ -479,7 +481,7 @@ void color_red(char *source_path){
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
         for (int y=0; y<height; y=y+1){
             for (int x=0; x<width; x=x+1){
-                pixelRGB* a = getPixel(data, width, height, nbChannels, x, y); 
+                pixelRGB* a = get_pixel(data, width, height, nbChannels, x, y); 
                 a->G = 0;
                 a->B = 0;
             }
@@ -488,3 +490,9 @@ void color_red(char *source_path){
         printf("Image convertie en rouge : image_out.bmp\n"); 
     }
 }
+
+/*void mirrorHorizontal (const char *fileImage_input, const char *fileImage_ouput){
+    unsigned char data; 
+    int width, height, nbChannels;
+
+}*/
