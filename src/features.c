@@ -91,7 +91,7 @@ void print_pixel( char *filename, int x, int y ){
         printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, pixel1->R, pixel1->G, pixel1->B);
     }
     
-    free(data);
+    free_image_data(data);
 }
 
 void max_pixel(char *filename, FILE* out){
@@ -106,7 +106,7 @@ void max_pixel(char *filename, FILE* out){
 
     if(nbChannels < 3){
         fprintf(stderr, "Nombre de canaux de l'image inferieur a 3.\n");
-        free(data);
+        free_image_data(data);
     }
     
     maxSom = -1;
@@ -142,7 +142,7 @@ void max_pixel(char *filename, FILE* out){
         printf("Erreur de recuperation du pixel.\n");
     }
     
-    free(data);
+    free_image_data(data);
     
 }
 
@@ -159,7 +159,7 @@ void min_pixel(char *filename, FILE* out){
 
     if(nbChannels < 3){
         fprintf(stderr, "Nombre de canaux de l'image inferieur a 3.\n");
-        free(data);
+        free_image_data(data);
     }
     
     minSom = 256 * 3;
@@ -203,7 +203,7 @@ void min_pixel(char *filename, FILE* out){
         printf("Erreur de recuperation du pixel.\n");
     }
     
-    free(data);
+    free_image_data(data);
     
 }
 
@@ -301,7 +301,7 @@ void stat_report(const char* FileImage){
 
     if (fichier == NULL){
         fprintf(stderr, "Erreur lors de la création du fichier.\n");
-        free(data);
+        free_image_data(data);
         return;
     }
 
@@ -331,7 +331,7 @@ void stat_report(const char* FileImage){
     min_component('B', (char*)FileImage, fichier);
     
     fclose(fichier);
-    free(data);
+    free_image_data(data);
     printf("Le fichier startReport a ete cree avec succes.\n");
 }
 
@@ -357,6 +357,8 @@ void color_gray(const char* filename){
     printf("Image convertie en niveaux de gris : image_out.bmp\n"); 
     }
 
+    free_image_data(data);
+
 }      
         
 void color_invert(char *source_path) {
@@ -375,6 +377,8 @@ void color_invert(char *source_path) {
     else{
         printf("Erreur\n");
     }
+
+    free_image_data(data);
     
 }
 
@@ -397,6 +401,7 @@ void rotate_cw(char *source_path) {
     
     write_image_data("image_out.bmp", memoire, height, width);
     free(memoire);
+    free_image_data(data);
 }
 
 void color_gray_luminance (char *source_path) {
@@ -417,6 +422,8 @@ void color_gray_luminance (char *source_path) {
     write_image_data("image_out.jpeg", data, width, height); 
     printf("Image convertie en niveaux de gris : image_out.jpeg\n");  
     }
+
+    free_image_data(data);
 }
 
 void rotate_acw(char *source_path) {
@@ -438,6 +445,7 @@ void rotate_acw(char *source_path) {
     
     write_image_data("image_out.bmp", memoire, height, width);
     free(memoire);
+    free_image_data(data);
 }
 
 void color_green(char *source_path){
@@ -455,6 +463,8 @@ void color_green(char *source_path){
         write_image_data("image_out.bmp", data, width, height); 
         printf("Image convertie en vert : image_out.bmp\n"); 
     }
+
+    free_image_data(data);
 }
 
 void color_blue(char *source_path){
@@ -472,6 +482,8 @@ void color_blue(char *source_path){
         write_image_data("image_out.bmp", data, width, height); 
         printf("Image convertie en bleue : image_out.bmp\n"); 
     }
+
+    free_image_data(data);
 }
 
 void color_red(char *source_path){
@@ -489,13 +501,39 @@ void color_red(char *source_path){
         write_image_data("image_out.bmp", data, width, height); 
         printf("Image convertie en rouge : image_out.bmp\n"); 
     }
+
+    free_image_data(data);
 }
 
-/*void mirrorHorizontal (const char *fileImage_input, const char *fileImage_ouput){
-    unsigned char data; 
-    int width, height, nbChannels;
+void mirror_horizontal (const char *fileImage_input, const char *fileImage_ouput){
+    unsigned char *data_input, *data_output; 
+    int width, height, nbChannels, x, y, index_input, index_output, i;
 
-}*/
+    if(read_image_data(fileImage_input, &data_input, &width, &height, &nbChannels) == 0){
+        fprintf(stderr, "Erreur lors de la lecture de l'image.\n");
+        return;
+    }
+
+    data_output = malloc(sizeof(unsigned char)*width*height*nbChannels);
+
+    for (y=0; y<height; y++){
+        for(x=0; x<width; x++){
+            index_input = ((y * width) + x) * nbChannels;
+            index_output = ((y * width) +(width - 1 - x)) * nbChannels;
+
+            for (i=0; i<nbChannels; i++){
+                data_output[index_output + i] = data_input[index_input + i];
+            }
+        }
+    }
+
+    write_image_data(fileImage_ouput, data_output, width, height);
+
+    free_image_data(data_input);
+    free_image_data(data_output);
+
+
+}
 
 void color_desaturate(char *source_path) {
 
@@ -536,4 +574,6 @@ void color_desaturate(char *source_path) {
     write_image_data("image_out.bmp", data, width, height);
     printf("Image desaturee : image_out.bmp\n");
     }
+
+    free_image_data(data);
 }
