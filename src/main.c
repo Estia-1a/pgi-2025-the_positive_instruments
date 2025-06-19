@@ -97,7 +97,10 @@ int main(int argc, char **argv) {
     int crop_width = atoi(configuration.arguments[2]);
     int crop_height = atoi(configuration.arguments[3]);
     scale_crop(configuration.filenames[0], center_x, center_y, crop_width, crop_height);
-}
+  } else if (strncmp(configuration.command, "scale_nearest", 5) == 0) {
+    float scale = atof(configuration.arguments[0]);
+    scale_nearest(configuration.filenames[0], scale);
+  }
   /*
    * TO COMPLETE
    */
