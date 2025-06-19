@@ -50,5 +50,6 @@ void mirror_total (const char *fileImage_input, const char *fileImage_ouput);
 
 void color_desaturate (char *source_path);
 
+void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height);
 
 #endif

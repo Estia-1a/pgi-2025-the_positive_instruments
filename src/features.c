@@ -629,3 +629,38 @@ void color_desaturate(char *source_path) {
 
     free_image_data(data);
 }
+
+void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height) {
+    unsigned char *data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        unsigned char *cropped = malloc(crop_width * crop_height * nbChannels);
+        
+        int start_x = center_x - crop_width / 2;
+        int start_y = center_y - crop_height / 2;
+        
+        int i, j, c;
+        for (i = 0; i < crop_height; i++) {
+            for (j = 0; j < crop_width; j++) {
+                int src_x = start_x + j;
+                int src_y = start_y + i;
+                
+                for (c = 0; c < nbChannels; c++) {
+                    if (src_x >= 0 && src_x < width && src_y >= 0 && src_y < height) {
+                        cropped[(i * crop_width + j) * nbChannels + c] = data[(src_y * width + src_x) * nbChannels + c];
+                    } else {
+                        cropped[(i * crop_width + j) * nbChannels + c] = 0;
+                    }
+                }
+            }
+        }
+        
+        write_image_data("image_out.bmp", cropped, crop_width, crop_height);
+        free(cropped);
+        free_image_data(data);
+    }
+    else{
+        printf("Erreur");
+    }
+}
