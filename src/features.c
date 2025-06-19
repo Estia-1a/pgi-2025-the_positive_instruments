@@ -74,21 +74,20 @@ void tenth_pixel(char* filename){
     
 void print_pixel( char *filename, int x, int y ){
     unsigned char *data;
-    int width,height, nbChannels;
-    pixelRGB *pixel1;
+    int width,height, nbChannels, index_R, index_G, index_B;
+
     if(read_image_data(filename, &data, &width, &height, &nbChannels) == 0){
         fprintf(stderr, "Erreur de lecture du fichier.\n");
         return;
     }
     
-    pixel1 = get_pixel(data, width, height, nbChannels, x, y);
+    if((x<width)&&(y<height)){
+        index_R = (y * width + x) * nbChannels;
+        index_G = (y * width + x) * nbChannels + 1;
+        index_B = (y * width + x) * nbChannels + 2;
 
-    if(!pixel1){
-        fprintf(stderr, "Erreur d indexage.\n");
-        return;
-    }
-    else{
-        printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, pixel1->R, pixel1->G, pixel1->B);
+    printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, data[index_R], data[index_G], data[index_B]);
+        
     }
     
     free_image_data(data);
