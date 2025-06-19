@@ -100,6 +100,9 @@ int main(int argc, char **argv) {
   } else if (strncmp(configuration.command, "scale_nearest", 5) == 0) {
     float scale = atof(configuration.arguments[0]);
     scale_nearest(configuration.filenames[0], scale);
+  } else if (strncmp(configuration.command, "scale_bilinear", 5) == 0) {
+    float scale = atof(configuration.arguments[0]);
+    scale_bilinear(configuration.filenames[0], scale);
   }
   /*
    * TO COMPLETE

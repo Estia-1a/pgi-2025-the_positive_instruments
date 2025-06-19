@@ -697,3 +697,55 @@ void scale_nearest(char* source_path, float scale) {
         free_image_data(data);
     }
 }
+
+void scale_bilinear(char* source_path, float scale) {
+    unsigned char* data;
+    int width, height, nbChannels;
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
+        
+        int new_width = (int)(width * scale);
+        int new_height = (int)(height * scale);
+        
+        unsigned char* scaled = malloc(new_width * new_height * nbChannels);
+        
+        int i, j, c;
+        for (i = 0; i < new_height; i++) {
+            for (j = 0; j < new_width; j++) {
+                
+                float src_x = j / scale;
+                float src_y = i / scale;
+                
+                int x1 = (int)src_x;
+                int y1 = (int)src_y;
+                int x2 = x1 + 1;
+                int y2 = y1 + 1;
+                
+                if (x2 >= width) x2 = width - 1;
+                if (y2 >= height) y2 = height - 1;
+                
+                float dx = src_x - x1;
+                float dy = src_y - y1;
+                
+                for (c = 0; c < nbChannels; c++) {
+                    unsigned char p1 = data[(y1 * width + x1) * nbChannels + c];
+                    unsigned char p2 = data[(y1 * width + x2) * nbChannels + c];
+                    unsigned char p3 = data[(y2 * width + x1) * nbChannels + c];
+                    unsigned char p4 = data[(y2 * width + x2) * nbChannels + c];
+                    
+                    float top = p1 * (1 - dx) + p2 * dx;
+                    float bottom = p3 * (1 - dx) + p4 * dx;
+                    float result = top * (1 - dy) + bottom * dy;
+                    
+                    scaled[(i * new_width + j) * nbChannels + c] = (unsigned char)result;
+                }
+            }
+        }
+        
+        write_image_data("image_out.bmp", scaled, new_width, new_height);
+        free(scaled);
+        free_image_data(data);
+    } else{
+        printf("Erreur");
+    }
+}
