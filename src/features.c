@@ -26,9 +26,7 @@ void first_pixel (char *source_path) {
         printf("first_pixel: %d, %d, %d\n", r, g, b);
 
         free_image_data(data);    
-    } else {
-        printf("Error");
-    }
+    } 
 }
 
 void dimension(const char* filename) {
