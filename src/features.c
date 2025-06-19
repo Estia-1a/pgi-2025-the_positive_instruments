@@ -17,7 +17,7 @@ void helloWorld() {
 }
 
 void first_pixel (char *source_path) {
-    unsigned char* data;
+    unsigned char *data;
     int width, height, nbChannels;
     if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
         // HERE
