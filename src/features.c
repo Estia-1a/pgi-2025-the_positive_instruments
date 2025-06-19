@@ -335,31 +335,30 @@ void stat_report(const char* FileImage){
     printf("Le fichier startReport a ete cree avec succes.\n");
 }
 
-void color_gray(const char* filename){
-    
+
+void color_gray(char *source_path){
     unsigned char *data;
     int width, height, nbChannels;
-
-    if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0) {
+    
+    if (read_image_data(source_path, &data, &width, &height, &nbChannels) != 0) {
         for (int y=0; y<height; y=y+1){
             for (int x=0; x<width; x=x+1){
-                pixelRGB* currentPixel = get_pixel(data, width, height, nbChannels, x, y); 
-                unsigned char value = (currentPixel->R + currentPixel->G + currentPixel->B) /3 ;
-                currentPixel->R = value;
-                currentPixel->G = value;
-                currentPixel->B = value;
-
-                
+                pixelRGB* a = get_pixel(data, width, height, nbChannels, x, y); 
+                unsigned char value = (a->R + a->G + a->B) /3 ;
+                a->R = value;
+                a->G = value;
+                a->B = value;
             }
         }
-        
-    write_image_data("image_out.bmp", data, width, height); 
-    printf("Image convertie en niveaux de gris : image_out.bmp\n"); 
+        write_image_data("image_out.bmp", data, width, height); 
+        printf("Image convertie en gris : image_out.bmp\n"); 
     }
 
     free_image_data(data);
 
 }      
+}
+
         
 void color_invert(char *source_path) {
     unsigned char *data;
