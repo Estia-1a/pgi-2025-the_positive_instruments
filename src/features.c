@@ -30,7 +30,7 @@ void first_pixel (char *source_path) {
 }
 
 void dimension(const char* filename) {
-    unsigned char* data;
+    unsigned char *data;
     int width, height, nbChannels;
     if (read_image_data(filename, &data, &width, &height, &nbChannels) != 0) {
         printf("dimension: %d, %d\n",width,height);      
